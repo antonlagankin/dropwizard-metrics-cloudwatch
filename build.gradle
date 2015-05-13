@@ -6,13 +6,13 @@ apply plugin: 'idea'
 
 
 // code checks
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
-apply plugin: 'checkstyle'
-apply plugin: "jacoco"
+//apply plugin: 'findbugs'
+//apply plugin: 'pmd'
+//apply plugin: 'checkstyle'
+//apply plugin: "jacoco"
 
 
-group = "com.damick"
+group = "com.natera"
 archivesBaseName = "dropwizard-metrics-cloudwatch"
 version = "0.1.4"
 
@@ -20,18 +20,18 @@ version = "0.1.4"
 def sonatypeRepositoryUrl
 def isRelease = false
 //set build variables based on build type (release, continuous integration, development)
-if (hasProperty("release")) {
-  sonatypeRepositoryUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-  isRelease = true
-} else if (hasProperty("snapshot")) {
-  version += "-SNAPSHOT"
-  isRelease = true
-} else {
-  version += "-SNAPSHOT"
-  sonatypeRepositoryUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
-  ext.ossrhUsername = ""
-  ext.ossrhPassword = ""
-}
+//if (hasProperty("release")) {
+//  sonatypeRepositoryUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+//  isRelease = true
+//} else if (hasProperty("snapshot")) {
+//  version += "-SNAPSHOT"
+//  isRelease = true
+//} else {
+//  version += "-SNAPSHOT"
+//  sonatypeRepositoryUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+//  ext.ossrhUsername = ""
+//  ext.ossrhPassword = ""
+//}
 
 
 task createWrapper(type: Wrapper) {
@@ -46,17 +46,17 @@ signing {
   }
 }
 
-/// Code checks
-checkstyle {
-  configFile = rootProject.file('gradle/config/checkstyle.xml')
-}
-// exclude the checkstyle, findbugsTest, pmdTest on test source..
-gradle.startParameter.excludedTaskNames += ["checkstyleTest", "findbugsTest", "pmdTest"]
-jacoco {
-  toolVersion = '0.7.2.201409121644'
-}
-tasks.check.dependsOn(jacocoTestReport)
-////
+///// Code checks
+//checkstyle {
+//  configFile = rootProject.file('gradle/config/checkstyle.xml')
+//}
+//// exclude the checkstyle, findbugsTest, pmdTest on test source..
+//gradle.startParameter.excludedTaskNames += ["checkstyleTest", "findbugsTest", "pmdTest"]
+//jacoco {
+//  toolVersion = '0.7.2.201409121644'
+//}
+//tasks.check.dependsOn(jacocoTestReport)
+//////
 
 
 // http://blog.joda.org/2014/02/turning-off-doclint-in-jdk-8-javadoc.html
@@ -87,7 +87,7 @@ artifacts { // define the artifacts for a service
 }
 
 
-group = 'com.damick'
+//group = 'com.damick'
 def vendor = 'Jeffrey Damick'
 
 jar.doFirst {
@@ -99,54 +99,54 @@ jar.doFirst {
   }
 }
 
-
-
 uploadArchives {
   repositories {
-    mavenDeployer {
-      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-      repository(url: sonatypeRepositoryUrl) {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
-      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
-
-      pom.project {
-        name 'dropwizard-metrics-cloudwatch'
-        packaging 'jar'
-        // optionally artifactId can be defined here 
-        description 'Dropwizard Metrics Plugin for reporting to AWS CloudWatch.'
-        url 'https://github.com/jdamick/dropwizard-metrics-cloudwatch'
-
-        scm {
-          connection 'scm:git:git://github.com/jdamick/dropwizard-metrics-cloudwatch.git'
-          developerConnection 'scm:git:git@github.com:jdamick/dropwizard-metrics-cloudwatch.git'
-          url 'https://github.com/jdamick/dropwizard-metrics-cloudwatch'
-        }
-
-        licenses {
-          license {
-            name 'The Apache License, Version 2.0'
-            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-          }
-        }
-
-        developers {
-          developer {
-            id 'jdamick'
-            url 'https://github.com/jdamick'
-            name 'Jeffrey Damick'
-            email 'jeffrey.damick@gmail.com'
-          }
-        }
-      }
-    }
+    mavenLocal()
+//    mavenDeployer {
+//      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+//
+//      repository(url: sonatypeRepositoryUrl) {
+//        authentication(userName: ossrhUsername, password: ossrhPassword)
+//      }
+//      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+//        authentication(userName: ossrhUsername, password: ossrhPassword)
+//      }
+//
+//      pom.project {
+//        name 'dropwizard-metrics-cloudwatch'
+//        packaging 'jar'
+//        // optionally artifactId can be defined here
+//        description 'Dropwizard Metrics Plugin for reporting to AWS CloudWatch.'
+//        url 'https://github.com/jdamick/dropwizard-metrics-cloudwatch'
+//
+//        scm {
+//          connection 'scm:git:git://github.com/jdamick/dropwizard-metrics-cloudwatch.git'
+//          developerConnection 'scm:git:git@github.com:jdamick/dropwizard-metrics-cloudwatch.git'
+//          url 'https://github.com/jdamick/dropwizard-metrics-cloudwatch'
+//        }
+//
+//        licenses {
+//          license {
+//            name 'The Apache License, Version 2.0'
+//            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//          }
+//        }
+//
+//        developers {
+//          developer {
+//            id 'jdamick'
+//            url 'https://github.com/jdamick'
+//            name 'Jeffrey Damick'
+//            email 'jeffrey.damick@gmail.com'
+//          }
+//        }
+//      }
+//    }
   }
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -165,7 +165,7 @@ dependencies {
   compile "com.amazonaws:aws-java-sdk-cloudwatch:$awsVer"
 
   compile "io.dropwizard:dropwizard-metrics:$dropwizVer"
-  compile "com.blacklocus:metrics-cloudwatch:0.3.4"
+  compile "com.natera:metrics-cloudwatch:0.3.5"
 
   testCompile 'junit:junit:4.11'
 }
